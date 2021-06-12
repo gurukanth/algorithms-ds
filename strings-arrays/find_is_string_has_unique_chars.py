@@ -7,9 +7,7 @@ def has_unique_chars_brute_force(string:str):
     return True
 
 def has_unique_chars_ext_ds(string:str):
-    char_set = set()
-    for char in string:
-        char_set.add(char)
+    char_set = set(string)
     if len(string) == len(char_set):
         return True
     else:
@@ -22,23 +20,45 @@ def has_unique_chars_sort(string:str):
             return False
     return True
 
-string = ''
-for i in range(1, 2000):
-    string += chr(i)
+def has_unique_chars_checker_bit(string:str):
+    checker = 0
+    for char in string:
+        order = ord(char) - ord('a')
+        print('checker:' + str(checker))
+        print('left shift:' + str(1<<order))
+        print('condition-result:' + str(checker & 1<<order))
+        if (checker & (1<<order)) > 0:
+            return False
+        
+        checker |= 1<<order
+    return True
 
-import timeit
 
-time = timeit.default_timer()
-print(has_unique_chars_brute_force(string))
-print(timeit.default_timer() - time)
+has_unique_chars_checker_bit('hello')
 
-time = timeit.default_timer()
-print(has_unique_chars_ext_ds(string))
-print(timeit.default_timer() - time)
+assert False == has_unique_chars_ext_ds('Hello')
+assert True == has_unique_chars_ext_ds('H')
+assert False == has_unique_chars_ext_ds('HeloGuru')
+assert True == has_unique_chars_ext_ds('abcdefghijkABCDEFIJK')
 
-time = timeit.default_timer()
-print(has_unique_chars_sort(string))
-print(timeit.default_timer() - time)
+
+# string = ''
+# for i in range(1, 2000):
+#     string += chr(i)
+
+# import timeit
+
+# time = timeit.default_timer()
+# print(has_unique_chars_brute_force(string))
+# print(timeit.default_timer() - time)
+
+# time = timeit.default_timer()
+# print(has_unique_chars_ext_ds(string))
+# print(timeit.default_timer() - time)
+
+# time = timeit.default_timer()
+# print(has_unique_chars_sort(string))
+# print(timeit.default_timer() - time)
 
 ##############Test cases#######################
 
